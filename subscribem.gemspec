@@ -25,4 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara", "2.3.0"
 
   s.add_dependency "bcrypt", "3.1.7"
+
+  s.add_dependency "warden", "1.2.3"
 end
