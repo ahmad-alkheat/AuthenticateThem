@@ -12,7 +12,7 @@ feature "Accounts" do
 		success_message = "Your account has been successfully created."
 		expect(page).to have_content(success_message)
 		expect(page).to have_content("subscribem@example.com")
-		expect(page.current_url).to eq ("http://test.example.com/subscribem/")
+		expect(page.current_url).to eq ("http://test.example.com/")
 	 end
 
 	 scenario "Ensure subdomain uniqueness" do
@@ -25,7 +25,7 @@ feature "Accounts" do
 		 fill_in "Password", :with => "password"
 		 fill_in "Password confirmation", :with => "password"
 		 click_button "Create Account"
-		 expect(page.current_url).to eq("http://www.example.com/subscribem/accounts")
+		 expect(page.current_url).to eq("http://www.example.com/accounts")
 		 expect(page).to have_content("Sorry, your account could not be created.")
 		 expect(page).to have_content("Subdomain has already been taken")
 	 end
@@ -38,8 +38,22 @@ feature "Accounts" do
 	  fill_in "Password", :with => "password"
 	  fill_in "Password confirmation", :with => "password"
 	  click_button "Create Account"
-	  expect(page.current_url).to eq("http://www.example.com/subscribem/accounts")
+	  expect(page.current_url).to eq("http://www.example.com/accounts")
 	  expect(page).to have_content("Sorry, your account could not be created.")
 	  expect(page).to have_content("Subdomain is not allowed. Please choose another subdomain.")
+	 end
+
+	 scenario "Subdomain with invalid name" do
+		visit subscribem.root_path
+		click_link "Account Sign Up"
+		fill_in "Name", :with => "Test"
+		fill_in "Subdomain", :with => "<admin>"
+		fill_in "Email", :with => "subscribem@example.com" 
+		fill_in "Password", :with => "password"
+  	fill_in "Password confirmation", :with => "password"
+  	click_button "Create Account"
+ 	  expect(page.current_url).to eq("http://www.example.com/accounts")
+  	expect(page).to have_content("Sorry, your account could not be created.")
+  	expect(page).to have_content("Subdomain is not allowed. Please choose another subdomain.")
 	 end
  end
